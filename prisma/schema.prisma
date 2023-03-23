@@ -6,6 +6,117 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  firstName String   @db.VarChar(255)
+  lastName  String   @db.VarChar(255)
+  email     String   @unique @db.VarChar(255)
+  password  String?  @db.VarChar(255)
+  googleId  String?  @db.VarChar(255)
+  cpf       String?  @db.VarChar(11)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Order     Order[]
+
+  @@map("users")
+}
+
+model Restaurant {
+  id           Int            @id @default(autoincrement())
+  name         String         @db.VarChar(255)
+  picture      String         @db.VarChar(255)
+  cnpj         String         @unique @db.VarChar(14)
+  cover        String         @db.VarChar(255)
+  themeColor   String         @default("#FFFFFF") @db.VarChar(255)
+  rating       Int            @default(3)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Address      Address?
+  MenuItem     MenuItem[]
+  ItemCategory ItemCategory[]
+  Order        Order[]
+  RestaurantCategory RestaurantCategory[]
+
+  @@map("restaurants")
+}
+
+model RestaurantCategory {
+  id     Int     @id @default(autoincrement())
+  name         String         @db.VarChar(255)
+  image         String         @db.VarChar(255)
+  Restaurant  Restaurant[]
+
+  @@map("restaurantCategories")
+}
+
+model Address {
+  id           Int        @id @default(autoincrement())
+  cep          String     @db.VarChar(255)
+  street       String     @db.VarChar(255)
+  number       String     @db.VarChar(255)
+  neighborhood String     @db.VarChar(255)
+  city         String     @db.VarChar(255)
+  state        String     @db.VarChar(255)
+  country      String     @db.VarChar(255)
+  restaurantId Int        @unique
+  Restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+
+  @@map("addresses")
+}
+
+model MenuItem {
+  id           Int          @id @default(autoincrement())
+  itemName     String       @db.VarChar(255)
+  price        Int
+  image        String       @db.VarChar(255)
+  description  String       @db.VarChar(255)
+  rating       Int          @default(30)
+  orderCount   Int          @default(0)
+  restaurantId Int          @unique
+  categoryId   Int          @unique
+  Restaurant   Restaurant   @relation(fields: [restaurantId], references: [id])
+  ItemCategory ItemCategory @relation(fields: [categoryId], references: [id])
+  Order        Order[]
+
+  @@map("menuItems")
+}
+
+model ItemCategory {
+  id           Int        @id @default(autoincrement())
+  name         String     @db.VarChar(255)
+  restaurantId Int        @unique
+  Restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  MenuItem     MenuItem[]
+
+  @@map("itemCategories")
+}
+
+model Table {
+  id     Int     @id @default(autoincrement())
+  number Int
+  Order  Order[]
+
+  @@map("tables")
+}
+
+model Order {
+  id           Int        @id @default(autoincrement())
+  userName     String?    @db.VarChar(255)
+  userCpf      String?    @db.VarChar(11)
+  total        Int
+  userId       Int        @unique
+  restaurantId Int        @unique
+  tableId      Int        @unique
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  User         User       @relation(fields: [userId], references: [id])
+  Restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  Table        Table      @relation(fields: [tableId], references: [id])
+  MenuItem     MenuItem[]
+
+  @@map("orders")
 }
