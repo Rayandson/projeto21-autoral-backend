@@ -1,0 +1,9 @@
+-- AlterTable
+ALTER TABLE "menuItems" ALTER COLUMN "image" SET DATA TYPE VARCHAR(500);
+
+-- AlterTable
+ALTER TABLE "restaurantCategories" ALTER COLUMN "image" SET DATA TYPE VARCHAR(500);
+
+-- AlterTable
+ALTER TABLE "restaurants" ALTER COLUMN "picture" SET DATA TYPE VARCHAR(500),
+ALTER COLUMN "cover" SET DATA TYPE VARCHAR(500);

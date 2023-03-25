@@ -1,8 +1,9 @@
-import { postUser } from "@/controllers/usersController";
+import { postUser } from "@/controllers";
 import Router from "express";
 
 const usersRouter = Router();
 
-usersRouter.post("/", postUser);
+usersRouter
+    .post("/", postUser);
 
 export { usersRouter };

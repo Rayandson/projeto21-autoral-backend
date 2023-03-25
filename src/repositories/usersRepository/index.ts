@@ -1,8 +1,8 @@
 import { prisma } from "@/config";
-import { userParams } from "@/protocols/usersProtocols";
+import { UserParams } from "@/protocols/usersProtocols";
 import { User } from "@prisma/client";
 
-function createUser(user: userParams) {
+function createUser(user: UserParams) {
   return prisma.user.create({
     data: {
       ...user,
