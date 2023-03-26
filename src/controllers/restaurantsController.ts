@@ -1,4 +1,5 @@
-import restaurantsService from "@/services/restaurantsService";
+// import restaurantsService from "@/services/restaurantsService";
+import restaurantsService from "../services/restaurantsService/index";
 import { Request, Response } from "express";
 import httpStatus, { INTERNAL_SERVER_ERROR } from "http-status";
 
