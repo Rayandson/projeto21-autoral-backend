@@ -5,7 +5,7 @@ import { loadEnv, connectDb, disconnectDB } from "./config";
 // import { handleApplicationErrors } from "@/middlewares";
 import {
   usersRouter
-} from "@/routers";
+} from "./routers/usersRouter";
 import { restaurantsRouter } from "./routers/restaurantsRouter";
 
 loadEnv();
