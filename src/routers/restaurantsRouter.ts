@@ -1,4 +1,5 @@
-import { addCategory, getRestaurants, postCategory, postRestaurant } from "@/controllers";
+// import { addCategory, getRestaurants, postCategory, postRestaurant } from "@/controllers";
+import { addCategory, getRestaurants, postCategory, postRestaurant } from "../controllers/restaurantsController";
 import { Router } from "express";
 
 const restaurantsRouter = Router();

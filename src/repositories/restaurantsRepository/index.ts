@@ -1,5 +1,7 @@
-import { prisma } from "@/config";
-import { RestaurantParams } from "@/protocols/restaurantsProtocols";
+// import { prisma } from "@/config";
+// import { RestaurantParams } from "@/protocols/restaurantsProtocols";
+import { prisma } from "../../config";
+import { RestaurantParams } from "../../protocols/restaurantsProtocols";
 
 function createRestaurant(restaurantParams: RestaurantParams) {
     return prisma.restaurant.create({
