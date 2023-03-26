@@ -1,7 +1,7 @@
-import { userParams } from "@/protocols/usersProtocols";
+import { UserParams } from "@/protocols/usersProtocols";
 import usersRepository from "@/repositories/usersRepository";
 
-async function createUser(userParams: userParams) {
+async function createUser(userParams: UserParams) {
     const user = await usersRepository.createUser(userParams);
 
     return user;

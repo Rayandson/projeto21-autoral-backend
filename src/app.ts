@@ -5,10 +5,9 @@ import { loadEnv, connectDb, disconnectDB } from "@/config";
 import {
   usersRouter
 } from "@/routers";
+import { restaurantsRouter } from "./routers/restaurantsRouter";
 
 loadEnv();
-
-
 
 const app = express();
 app
@@ -16,6 +15,7 @@ app
   .use(express.json())
   .get("/health", (_req, res) => res.send("OK!"))
   .use("/users", usersRouter)
+  .use("/restaurants", restaurantsRouter)
 //   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {

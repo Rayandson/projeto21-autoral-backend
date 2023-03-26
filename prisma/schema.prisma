@@ -17,7 +17,7 @@ model User {
   email     String   @unique @db.VarChar(255)
   password  String?  @db.VarChar(255)
   googleId  String?  @db.VarChar(255)
-  cpf       String?  @db.VarChar(11)
+  cpf       String?  @db.Char(11)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Order     Order[]
@@ -26,36 +26,47 @@ model User {
 }
 
 model Restaurant {
-  id           Int            @id @default(autoincrement())
-  name         String         @db.VarChar(255)
-  picture      String         @db.VarChar(255)
-  cnpj         String         @unique @db.VarChar(14)
-  cover        String         @db.VarChar(255)
-  themeColor   String         @default("#FFFFFF") @db.VarChar(255)
-  rating       Int            @default(3)
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  Address      Address?
-  MenuItem     MenuItem[]
-  ItemCategory ItemCategory[]
-  Order        Order[]
-  RestaurantCategory RestaurantCategory[]
+  id                 Int                  @id @default(autoincrement())
+  name               String               @db.VarChar(255)
+  picture            String               @db.VarChar(500)
+  cnpj               String               @unique @db.Char(14)
+  cover              String               @db.VarChar(500)
+  themeColor         String               @default("#FFFFFF") @db.VarChar(7)
+  fontColor          String               @default("#000000") @db.VarChar(7)
+  rating             Int                  @default(3)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  Address            Address?
+  MenuItem           MenuItem[]
+  ItemCategory       ItemCategory[]
+  Order              Order[]
+  Restaurant_restaurantCategory Restaurant_restaurantCategory[]
 
   @@map("restaurants")
 }
 
 model RestaurantCategory {
-  id     Int     @id @default(autoincrement())
-  name         String         @db.VarChar(255)
-  image         String         @db.VarChar(255)
-  Restaurant  Restaurant[]
+  id         Int          @id @default(autoincrement())
+  name       String       @db.VarChar(255)
+  image      String       @db.VarChar(500)
+  Restaurant_restaurantCategory Restaurant_restaurantCategory[]
 
   @@map("restaurantCategories")
 }
 
+model Restaurant_restaurantCategory {
+  id         Int          @id @default(autoincrement())
+  restaurantId Int        
+  restaurantCategoryId Int 
+  Restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  RestaurantCategory RestaurantCategory @relation(fields: [restaurantCategoryId], references: [id])
+
+  @@map("restaurant_restaurantCategory")
+}
+
 model Address {
   id           Int        @id @default(autoincrement())
-  cep          String     @db.VarChar(255)
+  cep          String     @db.Char(8)
   street       String     @db.VarChar(255)
   number       String     @db.VarChar(255)
   neighborhood String     @db.VarChar(255)
@@ -72,7 +83,7 @@ model MenuItem {
   id           Int          @id @default(autoincrement())
   itemName     String       @db.VarChar(255)
   price        Int
-  image        String       @db.VarChar(255)
+  image        String       @db.VarChar(500)
   description  String       @db.VarChar(255)
   rating       Int          @default(30)
   orderCount   Int          @default(0)
@@ -106,7 +117,7 @@ model Table {
 model Order {
   id           Int        @id @default(autoincrement())
   userName     String?    @db.VarChar(255)
-  userCpf      String?    @db.VarChar(11)
+  userCpf      String?    @db.Char(11)
   total        Int
   userId       Int        @unique
   restaurantId Int        @unique
