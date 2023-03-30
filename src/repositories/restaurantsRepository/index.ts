@@ -23,6 +23,26 @@ function findRestaurants() {
     });
 }
 
+function findRestaurantByProfileName(profileName: string) {
+    return prisma.restaurant.findFirst({
+        where: {
+            profileName
+        },
+        include: {
+            Address: true,
+            ItemCategory: {
+                include: {
+                    MenuItem: {
+                        include: {
+                            SubItem: true
+                        }
+                    }
+                }
+            }
+        }
+    })
+}
+
 function createCategory(name: string, image: string) {
     return prisma.restaurantCategory.create({
         data: {
@@ -44,6 +64,7 @@ function addCategory(restaurantId: number, restaurantCategoryId: number) {
 const restaurantsRepository = {
     createRestaurant,
     findRestaurants,
+    findRestaurantByProfileName,
     createCategory,
     addCategory
 }

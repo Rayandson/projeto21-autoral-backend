@@ -2,6 +2,7 @@
 import restaurantsService from "../services/restaurantsService/index";
 import { Request, Response } from "express";
 import httpStatus, { INTERNAL_SERVER_ERROR } from "http-status";
+import itemsService from "@/services/itemsService";
 
 export async function postRestaurant(req: Request, res: Response) {
     const restaurant = req.body;
@@ -27,6 +28,18 @@ export async function getRestaurants(req: Request, res: Response) {
         res.status(httpStatus.OK).send(restaurants);
     } catch(err) {
         res.sendStatus(INTERNAL_SERVER_ERROR);
+    }
+}
+
+export async function getRestaurantByProfileName(req: Request, res: Response) {
+    const { profileName } = req.params;
+    try {
+        const restaurant = await restaurantsService.findRestaurantByProfileName(profileName);
+        const mostOrdered = await itemsService.findMostOrderedItems(restaurant.id);
+
+        res.status(httpStatus.OK).send({ restaurant, mostOrdered });
+    } catch (err) {
+        res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
     }
 }
 
