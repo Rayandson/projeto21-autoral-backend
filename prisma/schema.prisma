@@ -26,40 +26,42 @@ model User {
 }
 
 model Restaurant {
-  id                 Int                  @id @default(autoincrement())
-  name               String               @db.VarChar(255)
-  picture            String               @db.VarChar(500)
-  cnpj               String               @unique @db.Char(14)
-  cover              String               @db.VarChar(500)
-  themeColor         String               @default("#FFFFFF") @db.VarChar(7)
-  fontColor          String               @default("#000000") @db.VarChar(7)
-  rating             Int                  @default(3)
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
-  Address            Address?
-  MenuItem           MenuItem[]
-  ItemCategory       ItemCategory[]
-  Order              Order[]
+  id                            Int                             @id @default(autoincrement())
+  name                          String                          @db.VarChar(255)
+  profileName                   String                          @db.VarChar(255)
+  picture                       String                          @db.VarChar(500)
+  cnpj                          String                          @unique @db.Char(14)
+  cover                         String                          @db.VarChar(500)
+  themeColor                    String                          @default("#FFFFFF") @db.VarChar(7)
+  fontColor                     String                          @default("#000000") @db.VarChar(7)
+  rating                        Int                             @default(3)
+  createdAt                     DateTime                        @default(now())
+  updatedAt                     DateTime                        @updatedAt
+  Address                       Address?
+  MenuItem                      MenuItem[]
+  SubItem                       SubItem[]
+  ItemCategory                  ItemCategory[]
+  Order                         Order[]
   Restaurant_restaurantCategory Restaurant_restaurantCategory[]
 
   @@map("restaurants")
 }
 
 model RestaurantCategory {
-  id         Int          @id @default(autoincrement())
-  name       String       @db.VarChar(255)
-  image      String       @db.VarChar(500)
+  id                            Int                             @id @default(autoincrement())
+  name                          String                          @db.VarChar(255)
+  image                         String                          @db.VarChar(500)
   Restaurant_restaurantCategory Restaurant_restaurantCategory[]
 
   @@map("restaurantCategories")
 }
 
 model Restaurant_restaurantCategory {
-  id         Int          @id @default(autoincrement())
-  restaurantId Int        
-  restaurantCategoryId Int 
-  Restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
-  RestaurantCategory RestaurantCategory @relation(fields: [restaurantCategoryId], references: [id])
+  id                   Int                @id @default(autoincrement())
+  restaurantId         Int
+  restaurantCategoryId Int
+  Restaurant           Restaurant         @relation(fields: [restaurantId], references: [id])
+  RestaurantCategory   RestaurantCategory @relation(fields: [restaurantCategoryId], references: [id])
 
   @@map("restaurant_restaurantCategory")
 }
@@ -80,28 +82,50 @@ model Address {
 }
 
 model MenuItem {
+  id            Int          @id @default(autoincrement())
+  itemName      String       @db.VarChar(255)
+  price         Int?
+  image         String?      @db.VarChar(500)
+  description   String       @db.VarChar(255)
+  rating        Int          @default(30)
+  orderCount    Int          @default(0)
+  itHasSubItems Boolean      @default(false)
+  restaurantId  Int
+  categoryId    Int
+  Restaurant    Restaurant   @relation(fields: [restaurantId], references: [id])
+  ItemCategory  ItemCategory @relation(fields: [categoryId], references: [id])
+  Order         Order[]
+  SubItem       SubItem[]
+
+  @@map("menuItems")
+}
+
+model SubItem {
   id           Int          @id @default(autoincrement())
-  itemName     String       @db.VarChar(255)
+  name         String       @db.VarChar(255)
   price        Int
-  image        String       @db.VarChar(500)
+  image        String?      @db.VarChar(500)
   description  String       @db.VarChar(255)
   rating       Int          @default(30)
   orderCount   Int          @default(0)
-  restaurantId Int          @unique
-  categoryId   Int          @unique
+  itemId       Int
+  restaurantId Int
+  categoryId   Int
   Restaurant   Restaurant   @relation(fields: [restaurantId], references: [id])
   ItemCategory ItemCategory @relation(fields: [categoryId], references: [id])
+  MenuItem     MenuItem     @relation(fields: [itemId], references: [id])
   Order        Order[]
 
-  @@map("menuItems")
+  @@map("subItems")
 }
 
 model ItemCategory {
   id           Int        @id @default(autoincrement())
   name         String     @db.VarChar(255)
-  restaurantId Int        @unique
+  restaurantId Int
   Restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   MenuItem     MenuItem[]
+  SubItem      SubItem[]
 
   @@map("itemCategories")
 }
@@ -119,15 +143,16 @@ model Order {
   userName     String?    @db.VarChar(255)
   userCpf      String?    @db.Char(11)
   total        Int
-  userId       Int        @unique
-  restaurantId Int        @unique
-  tableId      Int        @unique
+  userId       Int
+  restaurantId Int
+  tableId      Int
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   User         User       @relation(fields: [userId], references: [id])
   Restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   Table        Table      @relation(fields: [tableId], references: [id])
   MenuItem     MenuItem[]
+  SubItem      SubItem[]
 
   @@map("orders")
 }

@@ -15,6 +15,7 @@ async function findRestaurants() {
     return {
       id: r.id,
       name: r.name,
+      profileName: r.profileName,
       picture: r.picture,
       cover: r.cover,
       cnpj: r.cnpj,
@@ -33,6 +34,31 @@ async function findRestaurants() {
   return restaurants;
 }
 
+async function findRestaurantByProfileName(profileName: string) {
+  const response = await restaurantsRepository.findRestaurantByProfileName(profileName);
+
+  const restaurant = {
+      id: response.id,
+      name: response.name,
+      profileName: response.profileName,
+      picture: response.picture,
+      cover: response.cover,
+      cnpj: response.cnpj,
+      rating: response.rating,
+      themeColor: response.themeColor,
+      fontColor: response.fontColor,
+      address: response.Address,
+      itemCategories: response.ItemCategory.map((c) => {
+        return {
+            id: c.id,
+            name: c.name,
+            items: c.MenuItem
+          }
+      })
+  }
+  return restaurant;
+}
+
 async function createCategory(name: string, image: string) {
   const category = await restaurantsRepository.createCategory(name, image);
 
@@ -46,6 +72,7 @@ async function addCategory(restaurantId: number, restaurantCategoryId: number) {
 const restaurantsService = {
   createRestaurant,
   findRestaurants,
+  findRestaurantByProfileName,
   createCategory,
   addCategory
 };
