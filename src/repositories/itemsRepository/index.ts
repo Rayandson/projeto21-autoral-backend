@@ -1,4 +1,5 @@
-import { prisma } from "@/config";
+// import { prisma } from "@/config";
+import { prisma } from "../../config";
 
 function findMostOrderedItems(id: number) {
     return prisma.menuItem.findMany({
