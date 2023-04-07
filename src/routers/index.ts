@@ -1,2 +1,2 @@
-export * from "./usersRouter"
-export * from "./restaurantsRouter"
+export * from "./usersRouter";
+export * from "./restaurantsRouter";

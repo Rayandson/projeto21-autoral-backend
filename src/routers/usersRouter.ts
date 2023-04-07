@@ -5,6 +5,6 @@ import Router from "express";
 const usersRouter = Router();
 
 usersRouter
-    .post("/", postUser);
+  .post("/", postUser);
 
 export { usersRouter };

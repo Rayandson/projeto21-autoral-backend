@@ -12,7 +12,7 @@ function createUser(user: UserParams) {
 }
 
 const usersRepository = {
-    createUser
-}
+  createUser,
+};
 
 export default usersRepository;

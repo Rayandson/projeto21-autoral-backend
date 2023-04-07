@@ -4,69 +4,74 @@ import { prisma } from "../../config";
 import { RestaurantParams } from "../../protocols/restaurantsProtocols";
 
 function createRestaurant(restaurantParams: RestaurantParams) {
-    return prisma.restaurant.create({
-        data: {
-            ...restaurantParams
-        }
-    })
+  return prisma.restaurant.create({
+    data: {
+      ...restaurantParams,
+    },
+  });
 }
 
 function findRestaurants() {
-    return prisma.restaurant.findMany({
-        include: {
-            Restaurant_restaurantCategory: {
-                select: {
-                    RestaurantCategory: true
-                }
-            }
-        }
-    });
+  return prisma.restaurant.findMany({
+    include: {
+      Restaurant_restaurantCategory: {
+        select: {
+          RestaurantCategory: true,
+        },
+      },
+    },
+  });
 }
 
 function findRestaurantByProfileName(profileName: string) {
-    return prisma.restaurant.findFirst({
-        where: {
-            profileName
-        },
+  return prisma.restaurant.findFirst({
+    where: {
+      profileName,
+    },
+    include: {
+      Address: true,
+      ItemCategory: {
         include: {
-            Address: true,
-            ItemCategory: {
-                include: {
-                    MenuItem: {
-                        include: {
-                            SubItem: true
-                        }
-                    }
-                }
-            }
+          MenuItem: {
+            include: {
+              SubItem: true,
+            },
+          },
+        },
+      },
+      Restaurant_Table: {
+        include: {
+          Table: true
         }
-    })
+      }
+    },
+  });
 }
 
 function createCategory(name: string, image: string) {
-    return prisma.restaurantCategory.create({
-        data: {
-            name,
-            image
-        }
-    })
+  return prisma.restaurantCategory.create({
+    data: {
+      name,
+      image,
+    },
+  });
 }
 
 function addCategory(restaurantId: number, restaurantCategoryId: number) {
-    return prisma.restaurant_restaurantCategory.create({
-        data: {
-            restaurantId,
-            restaurantCategoryId
-        }
-    })
+  return prisma.restaurant_restaurantCategory.create({
+    data: {
+      restaurantId,
+      restaurantCategoryId,
+    },
+  });
 }
 
 const restaurantsRepository = {
-    createRestaurant,
-    findRestaurants,
-    findRestaurantByProfileName,
-    createCategory,
-    addCategory
-}
+  createRestaurant,
+  findRestaurants,
+  findRestaurantByProfileName,
+  createCategory,
+  addCategory,
+};
 
 export default restaurantsRepository;

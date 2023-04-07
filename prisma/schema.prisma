@@ -43,6 +43,7 @@ model Restaurant {
   ItemCategory                  ItemCategory[]
   Order                         Order[]
   Restaurant_restaurantCategory Restaurant_restaurantCategory[]
+  Restaurant_Table Restaurant_Table[]
 
   @@map("restaurants")
 }
@@ -82,39 +83,41 @@ model Address {
 }
 
 model MenuItem {
-  id            Int          @id @default(autoincrement())
-  itemName      String       @db.VarChar(255)
-  price         Int?
-  image         String?      @db.VarChar(500)
-  description   String       @db.VarChar(255)
-  rating        Int          @default(30)
-  orderCount    Int          @default(0)
-  itHasSubItems Boolean      @default(false)
-  restaurantId  Int
-  categoryId    Int
-  Restaurant    Restaurant   @relation(fields: [restaurantId], references: [id])
-  ItemCategory  ItemCategory @relation(fields: [categoryId], references: [id])
-  Order         Order[]
-  SubItem       SubItem[]
+  id             Int              @id @default(autoincrement())
+  itemName       String           @db.VarChar(255)
+  price          Int?
+  image          String?          @db.VarChar(500)
+  description    String           @db.VarChar(255)
+  type           ItemType         @default(ITEM)
+  rating         Int              @default(30)
+  orderCount     Int              @default(0)
+  itHasSubItems  Boolean          @default(false)
+  restaurantId   Int
+  categoryId     Int
+  Restaurant     Restaurant       @relation(fields: [restaurantId], references: [id])
+  ItemCategory   ItemCategory     @relation(fields: [categoryId], references: [id])
+  SubItem        SubItem[]
+  MenuItem_Order MenuItem_Order[]
 
   @@map("menuItems")
 }
 
 model SubItem {
-  id           Int          @id @default(autoincrement())
-  name         String       @db.VarChar(255)
-  price        Int
-  image        String?      @db.VarChar(500)
-  description  String       @db.VarChar(255)
-  rating       Int          @default(30)
-  orderCount   Int          @default(0)
-  itemId       Int
-  restaurantId Int
-  categoryId   Int
-  Restaurant   Restaurant   @relation(fields: [restaurantId], references: [id])
-  ItemCategory ItemCategory @relation(fields: [categoryId], references: [id])
-  MenuItem     MenuItem     @relation(fields: [itemId], references: [id])
-  Order        Order[]
+  id            Int             @id @default(autoincrement())
+  name          String          @db.VarChar(255)
+  price         Int
+  image         String?         @db.VarChar(500)
+  description   String          @db.VarChar(255)
+  type          ItemType        @default(SUB_ITEM)
+  rating        Int             @default(30)
+  orderCount    Int             @default(0)
+  itemId        Int
+  restaurantId  Int
+  categoryId    Int
+  Restaurant    Restaurant      @relation(fields: [restaurantId], references: [id])
+  ItemCategory  ItemCategory    @relation(fields: [categoryId], references: [id])
+  MenuItem      MenuItem        @relation(fields: [itemId], references: [id])
+  SubItem_Order SubItem_Order[]
 
   @@map("subItems")
 }
@@ -134,25 +137,70 @@ model Table {
   id     Int     @id @default(autoincrement())
   number Int
   Order  Order[]
+  Restaurant_Table Restaurant_Table[]
 
   @@map("tables")
 }
 
+model Restaurant_Table {
+  id Int @id @default(autoincrement())
+  restaurantId   Int
+  tableId  Int
+  Restaurant Restaurant @relation(fields: [restaurantId], references: [id])
+  Table    Table    @relation(fields: [tableId], references: [id])
+
+  @@map("restaurant_table")
+}
+
+model MenuItem_Order {
+  id       Int      @id @default(autoincrement())
+  itemId   Int
+  quantity Int
+  orderId  Int
+  MenuItem MenuItem @relation(fields: [itemId], references: [id])
+  Order    Order    @relation(fields: [orderId], references: [id])
+
+  @@map("menuItem_order")
+}
+
+model SubItem_Order {
+  id       Int     @id @default(autoincrement())
+  itemId   Int
+  quantity Int
+  orderId  Int
+  SubItem  SubItem @relation(fields: [itemId], references: [id])
+  Order    Order   @relation(fields: [orderId], references: [id])
+
+  @@map("subItem_order")
+}
+
 model Order {
-  id           Int        @id @default(autoincrement())
-  userName     String?    @db.VarChar(255)
-  userCpf      String?    @db.Char(11)
-  total        Int
-  userId       Int
-  restaurantId Int
-  tableId      Int
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  User         User       @relation(fields: [userId], references: [id])
-  Restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
-  Table        Table      @relation(fields: [tableId], references: [id])
-  MenuItem     MenuItem[]
-  SubItem      SubItem[]
+  id             Int              @id @default(autoincrement())
+  userName       String?          @db.VarChar(255)
+  userCpf        String?          @db.Char(11)
+  total          Int
+  status         OrderStatus      @default(ORDERED)
+  userId         Int?
+  restaurantId   Int
+  tableId        Int
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  User           User?            @relation(fields: [userId], references: [id])
+  Restaurant     Restaurant       @relation(fields: [restaurantId], references: [id])
+  Table          Table            @relation(fields: [tableId], references: [id])
+  MenuItem_Order MenuItem_Order[]
+  SubItem_Order  SubItem_Order[]
 
   @@map("orders")
+}
+
+enum ItemType {
+  ITEM
+  SUB_ITEM
+}
+
+enum OrderStatus {
+  ORDERED
+  PREPARING
+  FINISHED
 }
