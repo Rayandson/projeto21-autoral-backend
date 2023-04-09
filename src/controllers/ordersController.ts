@@ -5,9 +5,10 @@ import httpStatus from "http-status";
 export default async function postOrder(req: Request, res: Response) {
   const { orderInfo, items } = req.body;
   try {
-    const response = await ordersService.createOrder(orderInfo);
+    const order = await ordersService.createOrder(orderInfo);
+    const orderItems = await ordersService.createOrderItems(items, order.id);
 
-    res.status(httpStatus.CREATED).send(response);
+    res.status(httpStatus.CREATED).send({ order, orderItems });
   } catch (err) {
     res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
   }
