@@ -9,7 +9,15 @@ function createOrder(orderParams: OrderParams) {
 
 function createOrderItems(items: OrderItems) {
   return prisma.menuItem_Order.createMany({
-    data: items
+    data: items,
+  });
+}
+
+function findOrder(orderId: number) {
+  return prisma.order.findFirst({
+    where: {
+      id: orderId,
+    },
   });
 }
 
@@ -21,7 +29,8 @@ type OrderItems = {
 
 const ordersRepository = {
   createOrder,
-  createOrderItems
+  createOrderItems,
+  findOrder
 };
 
 export default ordersRepository;

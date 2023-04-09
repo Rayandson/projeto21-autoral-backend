@@ -180,6 +180,7 @@ model Order {
   userCpf        String?          @db.Char(11)
   total          Int
   status         OrderStatus      @default(ORDERED)
+  isPaid         Boolean          @default(false)
   userId         Int?
   restaurantId   Int
   tableId        Int
