@@ -5,10 +5,10 @@ import { Router } from "express";
 const restaurantsRouter = Router();
 
 restaurantsRouter
-    .post("/", postRestaurant)
-    .get("/", getRestaurants)
-    .get("/:profileName", getRestaurantByProfileName)
-    .post("/category", postCategory)
-    .post("/category/relate", addCategory)
+  .post("/", postRestaurant)
+  .get("/", getRestaurants)
+  .get("/:profileName", getRestaurantByProfileName)
+  .post("/category", postCategory)
+  .post("/category/relate", addCategory);
 
 export { restaurantsRouter };

@@ -4,13 +4,13 @@ import { UserParams } from "../../protocols/usersProtocols";
 import usersRepository from "../../repositories/usersRepository";
 
 async function createUser(userParams: UserParams) {
-    const user = await usersRepository.createUser(userParams);
+  const user = await usersRepository.createUser(userParams);
 
-    return user;
+  return user;
 }
 
 const usersService = {
-    createUser
-}
+  createUser,
+};
 
 export default usersService;

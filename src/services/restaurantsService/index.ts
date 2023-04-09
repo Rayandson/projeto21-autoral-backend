@@ -26,37 +26,40 @@ async function findRestaurants() {
         return {
           id: c.RestaurantCategory.id,
           name: c.RestaurantCategory.name,
-          image: c.RestaurantCategory.image
-        }
-      })
-    }
-  })
+          image: c.RestaurantCategory.image,
+        };
+      }),
+    };
+  });
   return restaurants;
 }
 
 async function findRestaurantByProfileName(profileName: string) {
   const response = await restaurantsRepository.findRestaurantByProfileName(profileName);
 
-  const restaurant = {
-      id: response.id,
-      name: response.name,
-      profileName: response.profileName,
-      picture: response.picture,
-      cover: response.cover,
-      cnpj: response.cnpj,
-      rating: response.rating,
-      themeColor: response.themeColor,
-      fontColor: response.fontColor,
-      address: response.Address,
-      itemCategories: response.ItemCategory.map((c) => {
-        return {
-            id: c.id,
-            name: c.name,
-            items: c.MenuItem
-          }
-      })
-  }
-  return restaurant;
+  const restaurantInfo = {
+    id: response.id,
+    name: response.name,
+    profileName: response.profileName,
+    picture: response.picture,
+    cover: response.cover,
+    cnpj: response.cnpj,
+    rating: response.rating,
+    themeColor: response.themeColor,
+    fontColor: response.fontColor,
+    address: response.Address,
+    itemCategories: response.ItemCategory.map((c) => {
+      return {
+        id: c.id,
+        name: c.name,
+        items: c.MenuItem,
+      };
+    }),
+    tables: response.Restaurant_Table.map((t) => {
+      return { id: t.Table.id, number: t.Table.number };
+    }),
+  };
+  return restaurantInfo;
 }
 
 async function createCategory(name: string, image: string) {
@@ -74,7 +77,7 @@ const restaurantsService = {
   findRestaurants,
   findRestaurantByProfileName,
   createCategory,
-  addCategory
+  addCategory,
 };
 
 export default restaurantsService;

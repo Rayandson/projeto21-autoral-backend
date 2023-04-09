@@ -2,13 +2,13 @@
 import itemsRepository from "../../repositories/itemsRepository";
 
 async function findMostOrderedItems(id: number) {
-    const mostOrdered = await itemsRepository.findMostOrderedItems(id);
+  const mostOrdered = await itemsRepository.findMostOrderedItems(id);
 
-    return mostOrdered;
+  return mostOrdered;
 }
 
 const itemsService = {
-    findMostOrderedItems
-}
+  findMostOrderedItems,
+};
 
 export default itemsService;
