@@ -8,9 +8,9 @@ export async function postOrder(req: Request, res: Response) {
     const order = await ordersService.createOrder(orderInfo);
     const orderItems = await ordersService.createOrderItems(items, order.id);
 
-    res.status(httpStatus.CREATED).send({ order, orderItems });
+    return res.status(httpStatus.CREATED).send({ order, orderItems });
   } catch (err) {
-    res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
   }
 }
 
@@ -20,8 +20,8 @@ export async function getOrder(req: Request, res: Response) {
   try {
     const order = await ordersService.findOrder(id);
 
-    res.status(httpStatus.OK).send(order);
+    return res.status(httpStatus.OK).send(order);
   } catch (err) {
-    res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
   }
 }

@@ -11,8 +11,17 @@ function createUser(user: UserParams) {
   });
 }
 
+function findUserByEmail(email: string) {
+  return prisma.user.findFirst({
+    where: {
+      email: email
+    }
+  });
+}
+
 const usersRepository = {
   createUser,
+  findUserByEmail
 };
 
 export default usersRepository;

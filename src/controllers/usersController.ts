@@ -9,12 +9,12 @@ export async function postUser(req: Request, res: Response) {
   try {
     const createdUser = await usersService.createUser(user);
 
-    res.status(httpStatus.CREATED).send(createdUser);
+    return res.status(httpStatus.CREATED).send(createdUser);
   } catch (err) {
     if (err.name === "InvalidDataError") {
-      res.sendStatus(httpStatus.BAD_REQUEST);
+      return res.sendStatus(httpStatus.BAD_REQUEST);
     } else {
-      res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+      return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
