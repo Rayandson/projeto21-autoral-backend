@@ -2,11 +2,25 @@
 // import usersRepository from "@/repositories/usersRepository";
 import { UserParams } from "../../protocols/usersProtocols";
 import usersRepository from "../../repositories/usersRepository";
+import { duplicatedEmailError } from "./errors";
+import bcrypt from "bcrypt";
 
 async function createUser(userParams: UserParams) {
-  const user = await usersRepository.createUser(userParams);
+  const { email, password } = userParams;
+
+  validateUniqueEmail(email);
+
+  const hashedPassword = await bcrypt.hash(password, 12);
+  const user = await usersRepository.createUser({ ...userParams, password: hashedPassword });
 
   return user;
+}
+
+async function validateUniqueEmail(email: string) {
+  const user = await usersRepository.findUserByEmail(email);
+  if (user) {
+    throw duplicatedEmailError();
+  }
 }
 
 const usersService = {

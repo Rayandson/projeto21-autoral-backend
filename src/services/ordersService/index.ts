@@ -18,8 +18,15 @@ async function createOrderItems(items: OrderItems, orderId: number) {
 }
 
 async function findOrder(orderId: number): Promise<Order> {
-  const order = await ordersRepository.findOrder(orderId);
-  
+  const response = await ordersRepository.findOrder(orderId);
+
+  const items = response.MenuItem_Order.map((i) => {
+    return { quantity: i.quantity, itemInfo: i.MenuItem };
+  });
+
+  const order = { ...response, items }; 
+  delete order.MenuItem_Order;
+
   return order;
 }
 
@@ -31,7 +38,7 @@ type OrderItems = {
 const ordersService = {
   createOrder,
   createOrderItems,
-  findOrder
+  findOrder,
 };
 
 export default ordersService;

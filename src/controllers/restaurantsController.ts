@@ -38,9 +38,9 @@ export async function getRestaurantByProfileName(req: Request, res: Response) {
     const restaurantInfo = await restaurantsService.findRestaurantByProfileName(profileName);
     const mostOrdered = await itemsService.findMostOrderedItems(restaurantInfo.id);
 
-    res.status(httpStatus.OK).send({ restaurantInfo, mostOrdered });
+    return res.status(httpStatus.OK).send({ restaurantInfo, mostOrdered });
   } catch (err) {
-    res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
   }
 }
 
@@ -49,9 +49,9 @@ export async function postCategory(req: Request, res: Response) {
   try {
     const category = await restaurantsService.createCategory(name, image);
 
-    res.status(httpStatus.CREATED).send(category);
+    return res.status(httpStatus.CREATED).send(category);
   } catch (err) {
-    res.sendStatus(INTERNAL_SERVER_ERROR);
+    return res.sendStatus(INTERNAL_SERVER_ERROR);
   }
 }
 
@@ -60,8 +60,8 @@ export async function addCategory(req: Request, res: Response) {
   try {
     await restaurantsService.addCategory(restaurantId, restaurantCategoryId);
 
-    res.sendStatus(httpStatus.CREATED);
+    return res.sendStatus(httpStatus.CREATED);
   } catch (err) {
-    res.sendStatus(INTERNAL_SERVER_ERROR);
+    return res.sendStatus(INTERNAL_SERVER_ERROR);
   }
 }

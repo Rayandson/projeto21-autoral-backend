@@ -18,6 +18,13 @@ function findOrder(orderId: number) {
     where: {
       id: orderId,
     },
+    include: {
+      MenuItem_Order: {
+        include: {
+          MenuItem: true
+        }
+      }
+    }
   });
 }
 
