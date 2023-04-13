@@ -35,10 +35,17 @@ type OrderItems = {
   quantity: number;
 }[];
 
+async function findOrdersByUserId(userId: number): Promise<Order[]> {
+  const orders = ordersRepository.findOrdersByUserId(userId);
+
+  return orders;
+}
+
 const ordersService = {
   createOrder,
   createOrderItems,
   findOrder,
+  findOrdersByUserId
 };
 
 export default ordersService;

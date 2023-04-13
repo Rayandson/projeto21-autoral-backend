@@ -1,3 +1,4 @@
+import { AuthenticatedRequest } from "../middlewares/authenticationMiddleware";
 import ordersService from "../services/ordersService";
 import { Request, Response } from "express";
 import httpStatus from "http-status";
@@ -23,5 +24,17 @@ export async function getOrder(req: Request, res: Response) {
     return res.status(httpStatus.OK).send(order);
   } catch (err) {
     return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+  }
+}
+
+export async function getOrdersByUserId(req: AuthenticatedRequest, res: Response) {
+  const { userId } = req;
+
+  try {
+    const orders = await ordersService.findOrdersByUserId(userId);
+
+    return res.status(httpStatus.OK).send(orders);
+  } catch(err) {
+    console.log(err);
   }
 }
