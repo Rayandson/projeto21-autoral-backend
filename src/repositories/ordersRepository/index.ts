@@ -21,10 +21,18 @@ function findOrder(orderId: number) {
     include: {
       MenuItem_Order: {
         include: {
-          MenuItem: true
-        }
-      }
-    }
+          MenuItem: true,
+        },
+      },
+    },
+  });
+}
+
+function findOrdersByUserId(userId: number) {
+  return prisma.order.findMany({
+    where: {
+      userId,
+    },
   });
 }
 
@@ -37,7 +45,8 @@ type OrderItems = {
 const ordersRepository = {
   createOrder,
   createOrderItems,
-  findOrder
+  findOrder,
+  findOrdersByUserId
 };
 
 export default ordersRepository;
