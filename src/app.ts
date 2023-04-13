@@ -4,6 +4,7 @@ import { loadEnv, connectDb, disconnectDB } from "./config";
 import { usersRouter } from "./routers/usersRouter";
 import { restaurantsRouter } from "./routers/restaurantsRouter";
 import { ordersRouter } from "./routers/ordersRouter";
+import { authenticationRouter } from "./routers/authenticationRouter";
 // import { loadEnv, connectDb, disconnectDB } from "@/config";
 // import { handleApplicationErrors } from "@/middlewares";
 
@@ -16,7 +17,8 @@ app
   .get("/health", (_req, res) => res.send("OK!"))
   .use("/users", usersRouter)
   .use("/restaurants", restaurantsRouter)
-  .use("/orders", ordersRouter);
+  .use("/orders", ordersRouter)
+  .use("/auth", authenticationRouter);
 //   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
