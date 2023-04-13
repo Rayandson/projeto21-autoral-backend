@@ -15,6 +15,14 @@ function findUserByEmail(email: string) {
   return prisma.user.findFirst({
     where: {
       email: email
+    },
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      email: true,
+      cpf: true,
+      password: true,
     }
   });
 }
