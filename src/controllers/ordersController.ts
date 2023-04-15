@@ -35,6 +35,6 @@ export async function getOrdersByUserId(req: AuthenticatedRequest, res: Response
 
     return res.status(httpStatus.OK).send(orders);
   } catch(err) {
-    console.log(err);
+    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
   }
 }

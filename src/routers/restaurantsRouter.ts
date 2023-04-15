@@ -1,5 +1,5 @@
 // import { addCategory, getRestaurants, postCategory, postRestaurant } from "@/controllers";
-import { addCategory, getRestaurantByProfileName, getRestaurants, postCategory, postRestaurant } from "../controllers/restaurantsController";
+import { addCategory, getRestaurantByProfileName, getRestaurants, postCategory, postRestaurant } from "../controllers";
 import { Router } from "express";
 
 const restaurantsRouter = Router();
