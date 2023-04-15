@@ -14,7 +14,7 @@ export async function signIn(req: Request, res: Response) {
       return res.sendStatus(httpStatus.UNAUTHORIZED);
     } else {
       console.log(err);
-      return res.status(404).send(err);
+      return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
