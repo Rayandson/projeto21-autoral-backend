@@ -1,4 +1,4 @@
-import { Order } from "@prisma/client";
+import { Order, Restaurant } from "@prisma/client";
 import { OrderParams } from "../../protocols/ordersProtocols";
 import ordersRepository from "../../repositories/ordersRepository";
 
@@ -35,7 +35,7 @@ type OrderItems = {
   quantity: number;
 }[];
 
-async function findOrdersByUserId(userId: number): Promise<Order[]> {
+async function findOrdersByUserId(userId: number): Promise<(Order & { Restaurant: Restaurant; })[]> {
   const orders = ordersRepository.findOrdersByUserId(userId);
 
   return orders;

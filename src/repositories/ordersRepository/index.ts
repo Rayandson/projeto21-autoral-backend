@@ -33,6 +33,9 @@ function findOrdersByUserId(userId: number) {
     where: {
       userId,
     },
+    include: {
+      Restaurant: true,
+    }
   });
 }
 
