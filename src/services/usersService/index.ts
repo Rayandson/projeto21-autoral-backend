@@ -11,9 +11,7 @@ async function createUser(userParams: UserParams) {
   validateUniqueEmail(email);
 
   const hashedPassword = await bcrypt.hash(password, 12);
-  const user = await usersRepository.createUser({ ...userParams, password: hashedPassword });
-
-  return user;
+  await usersRepository.createUser({ ...userParams, password: hashedPassword });
 }
 
 async function validateUniqueEmail(email: string) {
