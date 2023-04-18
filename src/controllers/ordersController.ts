@@ -2,9 +2,12 @@ import { AuthenticatedRequest } from "../middlewares/authenticationMiddleware";
 import ordersService from "../services/ordersService";
 import { Request, Response } from "express";
 import httpStatus from "http-status";
+import { OrderBody } from "../protocols/ordersProtocols";
+import itemsService from "@/services/itemsService";
 
 export async function postOrder(req: Request, res: Response) {
-  const { orderInfo, items } = req.body;
+  const { orderInfo, items } = req.body as OrderBody;
+
   try {
     const order = await ordersService.createOrder(orderInfo);
     const orderItems = await ordersService.createOrderItems(items, order.id);

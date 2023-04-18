@@ -24,9 +24,26 @@ function findMostOrderedSubItems(id: number) {
   });
 }
 
+async function updateOrderCount(items: { itemId: number; quantity: number }[]) {
+  const promises = items.map((item) => {
+    return prisma.menuItem.update({
+      where: {
+        id: item.itemId,
+      },
+      data: {
+        orderCount: {
+          increment: item.quantity,
+        },
+      },
+    });
+  });
+  await Promise.all(promises);
+}
+
 const itemsRepository = {
   findMostOrderedItems,
   findMostOrderedSubItems,
+  updateOrderCount,
 };
 
 export default itemsRepository;
