@@ -1,6 +1,7 @@
 import { Order, Restaurant } from "@prisma/client";
 import { OrderParams } from "../../protocols/ordersProtocols";
 import ordersRepository from "../../repositories/ordersRepository";
+import itemsRepository from "@/repositories/itemsRepository";
 
 async function createOrder(orderParams: OrderParams) {
   const order = await ordersRepository.createOrder(orderParams);
@@ -14,6 +15,8 @@ async function createOrderItems(items: OrderItems, orderId: number) {
   });
 
   await ordersRepository.createOrderItems(orderItems);
+  await itemsRepository.updateOrderCount(items);
+
   return orderItems;
 }
 
