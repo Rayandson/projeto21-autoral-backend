@@ -28,6 +28,7 @@ export async function getRestaurants(req: Request, res: Response) {
 
     res.status(httpStatus.OK).send(restaurants);
   } catch (err) {
+    console.log(err);
     res.sendStatus(INTERNAL_SERVER_ERROR);
   }
 }

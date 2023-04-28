@@ -1,7 +1,7 @@
 import { Order, Restaurant } from "@prisma/client";
 import { OrderParams } from "../../protocols/ordersProtocols";
 import ordersRepository from "../../repositories/ordersRepository";
-import itemsRepository from "@/repositories/itemsRepository";
+import itemsRepository from "../../repositories/itemsRepository";
 
 async function createOrder(orderParams: OrderParams) {
   const order = await ordersRepository.createOrder(orderParams);
