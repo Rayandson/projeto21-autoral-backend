@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres
+    container_name: postgres
+    networks:
+      - easedine-network
+    ports:
+      - 5433:5432
+    env_file:
+      - .env
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+
+  node:  
+    container_name: node
+    build: .
+    image: easedine/backend
+    networks:
+      - easedine-network
+    ports:
+      - 4000:4000
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+networks:
+  easedine-network:
+    name: easedine-network
+    driver: bridge
+
+volumes:
+  postgres-volume:
