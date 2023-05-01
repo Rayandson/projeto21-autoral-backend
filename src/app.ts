@@ -14,11 +14,11 @@ const app = express();
 app
   .use(cors())
   .use(express.json())
-  .get("/health", (_req, res) => res.send("OK!"))
-  .use("/users", usersRouter)
-  .use("/restaurants", restaurantsRouter)
-  .use("/orders", ordersRouter)
-  .use("/auth", authenticationRouter);
+  .get("/api/health", (_req, res) => res.send("OK!"))
+  .use("/api/users", usersRouter)
+  .use("/api/restaurants", restaurantsRouter)
+  .use("/api/orders", ordersRouter)
+  .use("/api/auth", authenticationRouter);
 //   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
