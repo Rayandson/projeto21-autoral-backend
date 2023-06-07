@@ -1,4 +1,3 @@
-// import { prisma } from "@/config";
 import { prisma } from "../../config";
 
 function findMostOrderedItems(id: number) {

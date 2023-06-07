@@ -1,5 +1,3 @@
-// import { UserParams } from "@/protocols/usersProtocols";
-// import usersRepository from "@/repositories/usersRepository";
 import { UserParams } from "../../protocols/usersProtocols";
 import usersRepository from "../../repositories/usersRepository";
 import { duplicatedEmailError } from "./errors";

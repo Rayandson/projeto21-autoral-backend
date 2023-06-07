@@ -1,5 +1,3 @@
-// import { RestaurantParams } from "@/protocols/restaurantsProtocols";
-// import restaurantsRepository from "@/repositories/restaurantsRepository";
 import { RestaurantParams } from "../../protocols/restaurantsProtocols";
 import restaurantsRepository from "../../repositories/restaurantsRepository";
 

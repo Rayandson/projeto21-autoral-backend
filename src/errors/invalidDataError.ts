@@ -1,4 +1,3 @@
-// import { ApplicationError } from "@/protocols/errorsProtocols";
 import { ApplicationError } from "../protocols/errorsProtocols";
 
 export function invalidDataError(details: string[]): ApplicationInvalidateDataError {
