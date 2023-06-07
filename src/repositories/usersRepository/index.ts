@@ -1,5 +1,3 @@
-// import { prisma } from "@/config";
-// import { UserParams } from "@/protocols/usersProtocols";
 import { prisma } from "../../config";
 import { UserParams } from "../../protocols/usersProtocols";
 

@@ -1,4 +1,3 @@
-// import { postUser } from "@/controllers";
 import { validateBody } from "../middlewares/validationMiddleware";
 import { postUser } from "../controllers";
 import Router from "express";

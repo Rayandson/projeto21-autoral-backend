@@ -1,22 +1,3 @@
-// import { invalidDataError } from "../errors/invalidDataError";
-// import { NextFunction, Request, Response } from "express";
-// import httpStatus from "http-status";
-// import { ObjectSchema } from "joi";
-
-// export function validateBody(schema: ObjectSchema) {
-//   return (req: Request, res: Response, next: NextFunction) => {
-//     const { error } = schema.validate(req.body);
-
-//     if (!error) {
-//       console.log("entrou sem erro");
-//       next();
-//     } else {
-//       console.log("entrou no erro");
-//       res.status(httpStatus.BAD_REQUEST).send(invalidDataError(error.details.map((d) => d.message)));
-//     }
-//   };
-// }
-
 import { invalidDataError } from "../errors/invalidDataError";
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";

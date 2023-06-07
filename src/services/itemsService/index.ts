@@ -1,4 +1,3 @@
-// import itemsRepository from "@/repositories/itemsRepository";
 import itemsRepository from "../../repositories/itemsRepository";
 
 async function findMostOrderedItems(id: number) {

@@ -1,4 +1,3 @@
-// import usersService from "@/services/usersService";
 import usersService from "../services/usersService/index";
 import { Request, Response } from "express";
 import httpStatus from "http-status";

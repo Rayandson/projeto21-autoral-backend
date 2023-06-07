@@ -1,8 +1,6 @@
-// import restaurantsService from "@/services/restaurantsService";
 import restaurantsService from "../services/restaurantsService/index";
 import { Request, Response } from "express";
 import httpStatus, { INTERNAL_SERVER_ERROR } from "http-status";
-// import itemsService from "@/services/itemsService";
 import itemsService from "../services/itemsService";
 
 export async function postRestaurant(req: Request, res: Response) {
@@ -35,6 +33,7 @@ export async function getRestaurants(req: Request, res: Response) {
 
 export async function getRestaurantByProfileName(req: Request, res: Response) {
   const { profileName } = req.params;
+  
   try {
     const restaurantInfo = await restaurantsService.findRestaurantByProfileName(profileName);
     const mostOrdered = await itemsService.findMostOrderedItems(restaurantInfo.id);
